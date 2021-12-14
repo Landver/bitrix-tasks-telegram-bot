@@ -1,0 +1,20 @@
+{
+  "name": "commit_reporter",
+  "version": "1.0.0",
+  "description": "reported of commited bitrix hours",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r dotenv/config ./"
+  },
+  "author": "corpberry",
+  "license": "ISC",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.54.0",
+    "puppeteer": "^12.0.1"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "jshint": "^2.13.1"
+  },
+  "keywords": []
+}
