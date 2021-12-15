@@ -84,8 +84,8 @@ module.exports = async () => {
       for (const project in workerReport) {
         stringReport += `<u>${project}</u>:\n\n${workerReport[project].map(
           ({ task, hours }) =>
-            `<b>${task}</b>:\n ${hours.map(
-              ([dateTime, timeSpent, comment]) => `<code>${dateTime} ${timeSpent}</code>\n- ${comment}\n\n`
+            `<b>${task}</b>:\n${hours.map(
+              ([dateTime, timeSpent, comment]) => `<code>${dateTime.slice(11, -3)} ${timeSpent.slice(0, 5)}</code> - ${comment}\n`
             )}`
         )}\n`.replace(/,/g, '')
       }
