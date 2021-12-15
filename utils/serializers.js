@@ -6,4 +6,12 @@ const convertDateTime = date_time => {
   return `${date} ${time}`
 }
 
-module.exports = { convertDateTime }
+const strToMs = str => {
+  // hh:mm:ss to milliseconds
+  const arr = str.split(':');
+  return 1000 * (+arr[0]) * 60 * 60 + (+arr[1]) * 60 + (+arr[2]) 
+}
+
+const msToHours = ms => Math.floor((ms / (1000 * 60 * 60)) % 24) 
+
+module.exports = { convertDateTime, strToMs, msToHours }

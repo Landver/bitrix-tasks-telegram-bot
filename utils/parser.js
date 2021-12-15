@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer')
 
 const { login } = require('./authentication')
 const { getTaskIDs, getTodayTasks } = require('./queries')
-const { convertDateTime } = require('./serializers')
+const { convertDateTime, strToMs, msToHours } = require('./serializers')
 
 // Reading previous script launch time from file:
 const { lastLaunchTime } = JSON.parse(readFileSync(`${__dirname}/../last_launch_time.json`, { encoding: 'utf-8' }))
@@ -45,6 +45,14 @@ module.exports = async () => {
     const taskIDs = await getTaskIDs(page)
     const tasksToday = await getTodayTasks(taskIDs, page, BASE_URL) // Get all tasks with hours commited today
 
+    // Sum of all commited hours for today
+    let timeSum = 0
+    tasksToday.map(([ , , tasks]) => {
+      tasks.map(([, timeSpent]) => {
+        timeSum += strToMs(timeSpent)
+      })
+    })
+
     // Filter today tasks to get those with new commited hours
     const newestTasks = tasksToday
       .map(([projectName, taskName, tasks]) => [
@@ -72,7 +80,7 @@ module.exports = async () => {
 
     // Formatting a string from report object
     if (Object.keys(workerReport).length) {
-      stringReport += `<b><u>${WORKERS[workerID]}:</u></b>\n`
+      stringReport += `<b><u>${WORKERS[workerID]}:</u></b>\nTotal hours: ${msToHours(timeSum)}\n\n`
       for (const project in workerReport) {
         stringReport += `<u>${project}</u>:\n\n${workerReport[project].map(
           ({ task, hours }) =>
