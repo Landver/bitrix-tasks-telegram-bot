@@ -9,9 +9,17 @@ const convertDateTime = date_time => {
 const strToMs = str => {
   // hh:mm:ss to milliseconds
   const arr = str.split(':');
-  return 1000 * (+arr[0]) * 60 * 60 + (+arr[1]) * 60 + (+arr[2]) 
+  return (+arr[0]) * 3600000 + (+arr[1]) * 60000 + (+arr[2]) * 1000 
 }
 
-const msToHours = ms => Math.floor((ms / (1000 * 60 * 60)) % 24) 
+const msToHours = ms => {
+  let minutes = Math.floor((ms / (1000 * 60)) % 60)
+  let hours = Math.floor((ms / (1000 * 60 * 60)) % 24)
+
+  hours = (hours < 10) ? "0" + hours : hours
+  minutes = (minutes < 10) ? "0" + minutes : minutes
+
+  return `${hours}:${minutes}`
+}
 
 module.exports = { convertDateTime, strToMs, msToHours }
