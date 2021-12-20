@@ -43,7 +43,7 @@ module.exports = async () => {
     await page.waitForSelector('table[id^="TASKS_GRID"]', { timeout: 10000 })
 
     const taskIDs = await getTaskIDs(page)
-    const tasksToday = await getTodayTasks(taskIDs, page, BASE_URL) // Get all tasks with hours commited today
+    const tasksToday = await getTodayTasks(taskIDs, page, BASE_URL, WORKERS[workerID]) // Get all tasks with hours commited today
 
     // Sum of all commited hours for today
     let timeSum = 0
